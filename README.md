@@ -46,14 +46,10 @@ Performs basic Windows network diagnostics, including:
 - Tests DNS resolution
 - Reports PASS/FAIL results for connectivity checks
 
-Run the network diagnostic script:
+## Usage
+
+Run the full diagnostic tool:
 
 ```powershell
-.\network-check.ps1
-
-## Reports
-
-Diagnostic reports are generated locally in:
-
-```text
-Reports/
+.\it-diagnostic.ps1
+```

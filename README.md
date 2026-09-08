@@ -36,6 +36,21 @@ Provides a lightweight overview of:
 - IP configuration
 - Disk space
 
+### `network-check.ps1`
+
+Performs basic Windows network diagnostics, including:
+
+- Displays active network configuration
+- Shows IPv4 information
+- Tests internet connectivity
+- Tests DNS resolution
+- Reports PASS/FAIL results for connectivity checks
+
+Run the network diagnostic script:
+
+```powershell
+.\network-check.ps1
+
 ## Reports
 
 Diagnostic reports are generated locally in:

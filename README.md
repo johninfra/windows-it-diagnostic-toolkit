@@ -61,10 +61,62 @@ Performs deeper Windows Event Log diagnostics, including:
 - Detects hardware-related WHEA events
 - Generates a dedicated HTML event log report
 
+### `health-check.ps1`
+
+Evaluates overall Windows system health and reports PASS, WARNING, or CRITICAL results.
+
+Checks include:
+
+- CPU utilization
+- Memory usage
+- Disk free space
+- Physical disk health
+- Microsoft Defender status
+- Windows Firewall status
+- Automatic services
+- Critical hardware and system events
+- Pending restart status
+
+Optional deep scan:
+
+- CHKDSK filesystem scan
+- DISM component store health check
+- SFC system file verification
+
 ## Usage
+
+Run the standard health check:
+
+```powershell
+.\health-check.ps1
+```
+
+Run the deep health check:
+
+```powershell
+.\health-check.ps1 -DeepScan
+```
 
 Run the full diagnostic tool:
 
 ```powershell
 .\it-diagnostics.ps1
+```
+
+Run the dedicated Event Log diagnostic:
+
+```powershell
+.\event-log-check.ps1
+```
+
+Run the network diagnostic:
+
+```powershell
+.\network-check.ps1
+```
+
+Run the system information script:
+
+```powershell
+.\system-info.ps1
 ```

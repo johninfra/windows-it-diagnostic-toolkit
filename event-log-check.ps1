@@ -212,18 +212,18 @@ if ($priorityEvents.Count -gt 0) {
     Write-Host ""
     Write-Host "High-Priority Events:" -ForegroundColor Red
 
-    foreach ($event in ($priorityEvents | Select-Object -First 15)) {
+foreach ($logEvent in ($priorityEvents | Select-Object -First 15)) {
 
-        $category = Get-IssueCategory `
-            -EventID $event.Id `
-            -Provider $event.ProviderName
+    $category = Get-IssueCategory `
+        -EventID $logEvent.Id `
+        -Provider $logEvent.ProviderName
 
-        Write-Host ""
-        Write-Host "[$category] Event ID $($event.Id)" -ForegroundColor Yellow
-        Write-Host "Time:     $($event.TimeCreated)"
-        Write-Host "Provider: $($event.ProviderName)"
+    Write-Host ""
+    Write-Host "[$category] Event ID $($logEvent.Id)" -ForegroundColor Yellow
+    Write-Host "Time:     $($logEvent.TimeCreated)"
+    Write-Host "Provider: $($logEvent.ProviderName)"
 
-        $message = $event.Message
+    $message = $logEvent.Message
 
         if ($message -and $message.Length -gt 250) {
             $message = $message.Substring(0, 250) + "..."
@@ -237,27 +237,27 @@ if ($priorityEvents.Count -gt 0) {
 # Prepare HTML Event Data
 # --------------------------------------------------
 
-$reportEvents = foreach ($event in ($allEvents | Sort-Object TimeCreated -Descending)) {
+$reportEvents = foreach ($logEvent in ($allEvents | Sort-Object TimeCreated -Descending)) {
 
     $category = Get-IssueCategory `
-        -EventID $event.Id `
-        -Provider $event.ProviderName
+        -EventID $logEvent.Id `
+        -Provider $logEvent.ProviderName
 
-    $message = $event.Message
+    $message = $logEvent.Message
 
     if (-not $message) {
         $message = "No event message available."
     }
 
-    [PSCustomObject]@{
-        Time       = $event.TimeCreated
-        Log        = $event.LogName
-        Severity   = $event.LevelDisplayName
-        EventID    = $event.Id
-        Provider   = $event.ProviderName
-        Category   = $category
-        Message    = $message
-    }
+[PSCustomObject]@{
+    Time       = $logEvent.TimeCreated
+    Log        = $logEvent.LogName
+    Severity   = $logEvent.LevelDisplayName
+    EventID    = $logEvent.Id
+    Provider   = $logEvent.ProviderName
+    Category   = $category
+    Message    = $message
+}
 }
 
 # --------------------------------------------------

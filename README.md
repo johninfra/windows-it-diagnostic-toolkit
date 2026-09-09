@@ -19,10 +19,12 @@ A PowerShell-based Windows diagnostic toolkit designed to automate common IT sup
 - Automatic services that are not running
 - Recent critical and error events
 - Automated HTML reporting
+- Dedicated Windows Event Log analysis
+- Detection of critical events, errors, warnings, service failures, application crashes, storage issues, and unexpected shutdowns
 
 ## Scripts
 
-### `it-diagnostic.ps1`
+### `it-diagnostics.ps1`
 
 Runs the full Windows diagnostic assessment and generates an HTML report.
 
@@ -46,10 +48,23 @@ Performs basic Windows network diagnostics, including:
 - Tests DNS resolution
 - Reports PASS/FAIL results for connectivity checks
 
+### `event-log-check.ps1`
+
+Performs deeper Windows Event Log diagnostics, including:
+
+- Scans System and Application logs
+- Identifies critical events, errors, and warnings
+- Detects unexpected shutdowns and reboots
+- Detects application crashes
+- Detects Windows service failures
+- Detects disk and storage-related errors
+- Detects hardware-related WHEA events
+- Generates a dedicated HTML event log report
+
 ## Usage
 
 Run the full diagnostic tool:
 
 ```powershell
-.\it-diagnostic.ps1
+.\it-diagnostics.ps1
 ```

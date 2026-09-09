@@ -547,42 +547,46 @@ if ($DeepScan) {
 
     }
 
-    # SFC
+# --------------------------------------------------
+# System File Checker
+# --------------------------------------------------
 
-    Write-Host "[+] Verifying Windows system files..." -ForegroundColor Yellow
+Write-Host "[+] Verifying Windows system files..." -ForegroundColor Yellow
 
-    $sfcOutput = sfc /verifyonly | Out-String
+$sfcOutput = (& "$env:SystemRoot\System32\sfc.exe" /verifyonly 2>&1 | Out-String)
 
-    if (
-        $sfcOutput -match
-        "Windows Resource Protection did not find any integrity violations"
-    ) {
+if ($sfcOutput -match "did not find any integrity violations") {
 
-        Add-HealthResult `
-            -Check "System File Checker" `
-            -Status "PASS" `
-            -Details "No Windows system-file integrity violations detected."
+    Add-HealthResult `
+        -Check "System File Checker" `
+        -Status "PASS" `
+        -Details "No Windows system-file integrity violations detected."
 
-    }
-    elseif (
-        $sfcOutput -match
-        "Windows Resource Protection found integrity violations"
-    ) {
+}
+elseif ($sfcOutput -match "found corrupt files" -or
+        $sfcOutput -match "found integrity violations") {
 
-        Add-HealthResult `
-            -Check "System File Checker" `
-            -Status "WARNING" `
-            -Details "Windows system-file integrity violations were detected."
+    Add-HealthResult `
+        -Check "System File Checker" `
+        -Status "WARNING" `
+        -Details "Windows system-file integrity violations were detected."
 
-    }
-    else {
+}
+elseif ($sfcOutput -match "could not perform the requested operation") {
 
-        Add-HealthResult `
-            -Check "System File Checker" `
-            -Status "WARNING" `
-            -Details "Unable to determine SFC result automatically."
+    Add-HealthResult `
+        -Check "System File Checker" `
+        -Status "WARNING" `
+        -Details "SFC could not complete the verification operation."
 
-    }
+}
+else {
+
+    Add-HealthResult `
+        -Check "System File Checker" `
+        -Status "WARNING" `
+        -Details "Unable to determine SFC result automatically. Raw result: $($sfcOutput.Trim())"
+}
 }
 
 # --------------------------------------------------

@@ -547,9 +547,7 @@ if ($DeepScan) {
 
     }
 
-# --------------------------------------------------
-# System File Checker
-# --------------------------------------------------
+    # SFC
 
 Write-Host "[+] Verifying Windows system files..." -ForegroundColor Yellow
 

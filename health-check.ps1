@@ -405,22 +405,28 @@ $importantEvents = @(
     } -ErrorAction SilentlyContinue |
     Where-Object {
 
+        # Hardware errors reported by WHEA
         (
-            $_.ProviderName -eq "Microsoft-Windows-WHEA-Logger"
-        ) -or
-
-        (
-            $_.ProviderName -match "Disk|Ntfs|StorAHCI|stornvme" -and
+            $_.ProviderName -eq "Microsoft-Windows-WHEA-Logger" -and
             $_.Level -le 2
         ) -or
 
+        # Disk/storage errors
+        (
+            $_.ProviderName -match "Disk|StorAHCI|stornvme" -and
+            $_.Level -le 2
+        ) -or
+
+        # NTFS filesystem corruption - Event ID 55
+        (
+            $_.ProviderName -match "Ntfs" -and
+            $_.Id -eq 55
+        ) -or
+
+        # Unexpected shutdown / power loss
         (
             $_.ProviderName -eq "Microsoft-Windows-Kernel-Power" -and
             $_.Id -eq 41
-        ) -or
-
-        (
-            $_.Id -eq 55
         )
     }
 )

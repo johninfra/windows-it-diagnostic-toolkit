@@ -21,6 +21,15 @@ A PowerShell-based Windows diagnostic toolkit designed to automate common IT sup
 - Automated HTML reporting
 - Dedicated Windows Event Log analysis
 - Detection of critical events, errors, warnings, service failures, application crashes, storage issues, and unexpected shutdowns
+- Defender real-time protection status
+- Defender signature information
+- Secure Boot status
+- BitLocker protection status
+- User Account Control (UAC) status
+- Windows Update service configuration
+- Remote Desktop configuration
+- SMBv1 protocol detection
+- Windows endpoint security posture checks
 
 ## Scripts
 
@@ -83,6 +92,27 @@ Optional deep scan:
 - DISM component store health check
 - SFC system file verification
 
+### `security-check.ps1`
+
+Performs a Windows endpoint security posture assessment.
+
+Checks:
+
+- Administrator privileges
+- Microsoft Defender antivirus status
+- Real-time protection
+- Behavior monitoring
+- Defender signature version and update time
+- Windows Firewall profiles
+- Secure Boot
+- BitLocker
+- User Account Control (UAC)
+- Windows Update service configuration
+- Remote Desktop configuration
+- SMBv1 protocol status
+
+The script reports findings using `[PASS]`, `[WARNING]`, `[INFO]`, and `[ERROR]` indicators.
+
 ## Usage
 
 Run the standard health check:
@@ -119,4 +149,10 @@ Run the system information script:
 
 ```powershell
 .\system-info.ps1
+```
+
+Run the endpoint security assessment:
+
+```powershell
+.\security-check.ps1
 ```

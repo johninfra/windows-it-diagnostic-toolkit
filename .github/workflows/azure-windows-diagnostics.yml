@@ -29,13 +29,13 @@ jobs:
             --resource-group rg-azure-enterprise-lab \
             --name vm-win01
 
-      - name: Run system information diagnostic
+      - name: Run full Windows diagnostic toolkit
         run: |
           az vm run-command invoke \
             --resource-group rg-azure-enterprise-lab \
             --name vm-win01 \
             --command-id RunPowerShellScript \
-            --scripts @system-info.ps1
+            --scripts @it-diagnostics.ps1
 
       - name: Deallocate VM
         if: ${{ always() && steps.azure-login.outcome == 'success' }}

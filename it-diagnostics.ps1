@@ -13,7 +13,7 @@ Write-Host ""
 # Create Reports Folder
 # --------------------------------------------
 
-$reportFolder = Join-Path $PSScriptRoot "Reports"
+$reportFolder = "C:\DiagnosticReports"
 
 if (-not (Test-Path $reportFolder)) {
     New-Item -ItemType Directory -Path $reportFolder | Out-Null

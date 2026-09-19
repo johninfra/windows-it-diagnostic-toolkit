@@ -1,0 +1,45 @@
+name: Azure Windows Diagnostic Toolkit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Azure with OIDC
+        id: azure-login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Start Windows VM
+        run: |
+          az vm start \
+            --resource-group rg-azure-enterprise-lab \
+            --name vm-win01
+
+      - name: Run system information diagnostic
+        run: |
+          az vm run-command invoke \
+            --resource-group rg-azure-enterprise-lab \
+            --name vm-win01 \
+            --command-id RunPowerShellScript \
+            --scripts @system-info.ps1
+
+      - name: Deallocate VM
+        if: ${{ always() && steps.azure-login.outcome == 'success' }}
+        run: |
+          az vm deallocate \
+            --resource-group rg-azure-enterprise-lab \
+            --name vm-win01
